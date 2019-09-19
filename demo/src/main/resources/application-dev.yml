@@ -1,0 +1,63 @@
+#============ tomcat配置#====================================
+server:
+  port: 8180
+  servlet:
+    #项目启动名
+    context-path: /demo
+
+#============ jsp 配置----数据库配置#==========================
+spring:
+  mvc:
+    view:
+      #路径,在webapp文件夹下新建文件夹WEB-INF,在往下建文件夹jsp
+      prefix: /views/
+      #文件名的后缀,例如:index.jsp,放在jsp文件夹下
+      suffix: .jsp
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/ggdemo?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    # oracle : jdbc:oracle:thin:@ip:port:database
+    # 驱动（根据url自动识别）这一项可配可不配，如果不配置druid会根据url自动识别dbType，然后选择相应的driverClassName(建议配置下)
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    #   数据源其他配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+
+#============ mybatis配置 ====================================
+# mybatis.type-aliases-package  起别名。可省略写mybatis的xml中的resultType的全路径
+mybatis:
+  mapper-locations: classpath*:com/venus/demo/dao/**/xml/*Mapper.xml
+  type-aliases-package: com.venus.demo.dao.model
+
+##showSql
+#logging:
+#  level:
+#    com:
+#      example:
+#        mapper : debug
+
+#=========== 日志配置·简易（spring boot已经集成logback日志）=========
+#controller层日志 WARN级别输出
+#logging.level.com.liyan.controller=WARN
+#mapper层 sql日志 DEBUG级别输出
+#logging.level.com.liyan.mapper=DEBUG
+#logging.file=logs/spring-boot-logging.log
+#logging.pattern.console=%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n
+#logging.pattern.file=%d{yyyy/MM/dd-HH:mm} [%thread] %-5level %logger- %msg%n
+#打印运行时sql语句到控制台
+#spring.jpa.show-sql=true
+
+#==================== 日志配合·标准  ============================
+logging:
+  config: classpath:logback.xml
